@@ -1,0 +1,24 @@
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: agency-service
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/api/agences/**
+    discovery:
+      locator:
+        enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+server:
+  port: 8888
