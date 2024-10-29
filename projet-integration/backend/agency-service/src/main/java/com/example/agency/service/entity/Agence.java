@@ -15,4 +15,5 @@ public class Agence {
     private String email;
     private String password;
     private Boolean verificationStatus;
+    private String documentPath;
 }

@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.agency.service.dto.Login;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +25,26 @@ public class AgenceController {
     }
 
     // Create a new Agence
-    @PostMapping
-    public ResponseEntity<Object> createAgence(@RequestBody Agence agence) {
+    @PostMapping("/create")
+    public ResponseEntity<Map<String, Object>> createAgence(
+        @RequestParam("name") String name,
+        @RequestParam("email") String email,
+        @RequestParam("password") String password,
+        @RequestParam(value = "file", required = false) MultipartFile file) {
+    
+        System.out.println("Received file: " + (file != null ? "not null" : "null"));
+        System.out.println("Is file empty: " + (file != null && file.isEmpty()));
+    
+        // Create an Agence object with basic details
+        Agence agence = Agence.builder()
+                .name(name)
+                .email(email)
+                .password(password)
+                .verificationStatus(false) // Default to false for a new Agence
+                .build();
+        // Create the agence
         try {
-            agenceService.createAgence(agence);
+            agenceService.createAgence(agence,file);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Agence created successfully");
             response.put("created", true);
@@ -41,6 +59,7 @@ public class AgenceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+    
 
     // Retrieve Agence by ID
     @GetMapping("/{id}")
