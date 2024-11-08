@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 @Service
 public class OfferService {
@@ -59,6 +60,20 @@ public class OfferService {
         }
         // Return null if the agency does not exist
         return null;
+    }
+
+
+    public Offre getOfferById(Long id) {
+        return offerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Offer not found with id: " + id));
+    }
+
+    public List<Offre> getAllOffers() {
+        return offerRepository.findAll();
+    }
+
+    public List<Offre> searchOffers(String title, String theme, String type, String level, Double price) {
+        return offerRepository.searchOffers(title, theme, type, level, price);
     }
 
     

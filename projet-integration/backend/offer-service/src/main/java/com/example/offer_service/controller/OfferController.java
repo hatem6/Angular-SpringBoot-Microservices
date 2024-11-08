@@ -1,17 +1,17 @@
 package com.example.offer_service.controller;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
-import com.example.offer_service.dto.Agence;
 import com.example.offer_service.entity.Offre;
 import com.example.offer_service.service.OfferService;
 
+import java.sql.Date;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/offers")
@@ -30,20 +30,47 @@ public class OfferController {
         @RequestParam("title") String title,
         @RequestParam("description") String description,
         @RequestParam("price") Double price,
-        @RequestParam("approvalStatus") String approvalStatus,
-        
+        @RequestParam("type") String type,
+        @RequestParam("theme") String theme,
+        @RequestParam("level") String level,
+        @RequestParam("date") String date,
+        @RequestParam("approvalStatus") Boolean approvalStatus,
+        @RequestParam(value = "etat", defaultValue = "visible") String etat, 
         @RequestParam(value = "image", required = false) MultipartFile image) {
-    
+
         System.out.println("Received image: " + (image != null ? "not null" : "null"));
         System.out.println("Is image empty: " + (image != null && image.isEmpty()));
-    
+
+        String parsedDate;
+        try {
+                parsedDate = Date.valueOf(date).toString();
+            } catch (IllegalArgumentException e) {
+                // Handle invalid date format
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Invalid date format. Expected format: yyyy-MM-dd");
+                response.put("created", false);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        if (!etat.equalsIgnoreCase("archive") && !etat.equalsIgnoreCase("visible")) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Invalid etat value. Allowed values are 'archive' or 'visible'.");
+            response.put("created", false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        
         // Create an Agence object with basic details
         Offre offer = Offre.builder()
                 .agencyId(agencyId)
                 .title(title)
                 .description(description)
                 .price(price)
+                .type(type)
+                .theme(theme)
+                .level(level)
+                .date(parsedDate)
                 .approvalStatus(approvalStatus)
+                .etat(etat.toLowerCase())
                 .build();
         // Create the agence
         try {
@@ -51,10 +78,8 @@ public class OfferController {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Offer created successfully");
             response.put("created", true);
-            // Return a 200 OK response with the confirmation message
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (IllegalArgumentException e) {
-            // Return custom JSON response with error details
             Map<String, Object> response = new HashMap<>();
             response.put("message", e.getMessage());
             response.put("status", 400);
@@ -63,5 +88,38 @@ public class OfferController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> getOfferById(@PathVariable Long id) {
+        try {
+            Offre offer = offerService.getOfferById(id);
+            Map<String, Object> response = new HashMap<>();
+            response.put("offer", offer);
+            response.put("found", true);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            response.put("found", false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Offre>> getAllOffers() {
+        List<Offre> offers = offerService.getAllOffers();
+        return ResponseEntity.ok(offers);   
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Offre>> searchOffers(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String theme,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String level,
+            @RequestParam(required = false) Double price) {
+
+        List<Offre> offers = offerService.searchOffers(title, theme, type, level, price);
+        return ResponseEntity.ok(offers);
+    }
    
 }
