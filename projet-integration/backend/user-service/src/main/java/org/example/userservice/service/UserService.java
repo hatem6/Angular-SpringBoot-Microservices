@@ -17,16 +17,15 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final AgenceRepository agenceRepository;
+
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(UserRepository userRepository, AgenceRepository agenceRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.agenceRepository = agenceRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     // Create a new user
     public User createUser(User user) {
@@ -78,9 +77,7 @@ public class UserService {
 
 
 
-    // Method to search agencies by name or location
-    public List<Agence> searchAgencies(String keyword) {
-        return agenceRepository.findByNameContainingOrLocationContaining(keyword, keyword);
-    }
+
+
 }
 
