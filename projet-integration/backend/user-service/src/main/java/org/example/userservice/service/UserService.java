@@ -1,7 +1,5 @@
 package org.example.userservice.service;
 
-import com.example.agency.service.entity.Agence;
-import com.example.agency.service.repository.AgenceRepository;
 import org.example.userservice.entity.User;
 import org.example.userservice.exception.ResourceNotFoundException;
 import org.example.userservice.repository.UserRepository;

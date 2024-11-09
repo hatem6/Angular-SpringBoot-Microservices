@@ -1,6 +1,5 @@
 package org.example.userservice.controller;
 
-import com.example.agency.service.entity.Agence;
 import org.example.userservice.dto.Login;
 import org.example.userservice.entity.User;
 import org.example.userservice.service.UserService;
@@ -26,32 +25,13 @@ public class UserController {
 
     // Create a new User
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createUser(
-            @RequestParam("name") String name,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password) {
-
-        // Create a User object with basic details
-        User user = User.builder()
-                .name(name)
-                .email(email)
-                .password(password)
-                .build();
-
-        // Create the user
-        try {
-            userService.createUser(user);
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "User created successfully");
-            response.put("created", true);
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (IllegalArgumentException e) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", e.getMessage());
-            response.put("status", 400);
-            response.put("created", false);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
+    public ResponseEntity<Map<String, Object>> createUser(@RequestBody User user) {
+        userService.createUser(user);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "User created successfully");
+        response.put("created", true);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     // Retrieve User by ID
@@ -97,9 +77,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
-    @GetMapping("/search-agencies")
-    public ResponseEntity<List<Agence>> searchAgencies(@RequestParam String keyword) {
-        List<Agence> agencies = userService.searchAgencies(keyword);
-        return ResponseEntity.ok(agencies);
-    }
+   
 }
