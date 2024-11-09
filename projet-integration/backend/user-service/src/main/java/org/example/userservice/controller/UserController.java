@@ -97,9 +97,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
-    @GetMapping("/search-agencies")
-    public ResponseEntity<List<Agence>> searchAgencies(@RequestParam String keyword) {
-        List<Agence> agencies = userService.searchAgencies(keyword);
-        return ResponseEntity.ok(agencies);
-    }
+
 }
