@@ -12,6 +12,7 @@ import com.example.agency.service.dto.Login;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/agences")
@@ -110,8 +111,10 @@ public class AgenceController {
 
         Map<String, Object> response = new HashMap<>();
         if (isAuthenticated) {
+            Optional<Agence> agence = agenceService.getAgenceDetailsByEmail(loginRequest.getEmail());
             response.put("message", "Login successful");
             response.put("authenticated", true);
+            response.put("agence", agence);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } else {
             response.put("message", "Invalid email or password");

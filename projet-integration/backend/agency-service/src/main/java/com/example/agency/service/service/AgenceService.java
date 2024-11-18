@@ -40,7 +40,7 @@ public class AgenceService {
             // Generate a unique filename for the file
             String fileName = file.getOriginalFilename();
             String uniqueFileName = System.currentTimeMillis() + "_" + fileName; // Avoid filename duplication
-            Path documentPath = Paths.get("agency-service/src/main/uploads", uniqueFileName); // Adjust the path as needed
+            Path documentPath = Paths.get("backend/agency-service/src/main/uploads", uniqueFileName); // Adjust the path as needed
     
             try {
                 // Ensure the upload directory exists
@@ -50,7 +50,7 @@ public class AgenceService {
                 Files.copy(file.getInputStream(), documentPath, StandardCopyOption.REPLACE_EXISTING);
     
                 // Set the document path in the Agence object
-                agence.setDocumentPath(uniqueFileName.toString()); // Only store the document path
+                agence.setDocumentPath("http://localhost:8081/uploads/"+uniqueFileName.toString()); // Only store the document path
     
                 // Log for debugging (consider using a logger instead)
                 System.out.println("Document Path: " + documentPath.toString());
@@ -77,6 +77,11 @@ public class AgenceService {
     // Retrieve all Agences
     public List<Agence> getAllAgences() {
         return agenceRepository.findAll();
+    }
+
+    public Optional<Agence> getAgenceDetailsByEmail(String email) {
+        // Assuming you have a repository or a service to fetch the agence
+        return agenceRepository.findByEmail(email);
     }
 
     // Update an existing Agence

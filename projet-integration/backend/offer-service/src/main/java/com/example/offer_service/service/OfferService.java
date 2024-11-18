@@ -35,7 +35,7 @@ public class OfferService {
                 // Generate a unique filename for the file
                 String fileName = file.getOriginalFilename();
                 String uniqueFileName = System.currentTimeMillis() + "_" + fileName; // Avoid filename duplication
-                Path imagePath = Paths.get("offer-service/src/main/uploads", uniqueFileName); // Adjust the path as needed
+                Path imagePath = Paths.get("backend/offer-service/src/main/uploads", uniqueFileName); // Adjust the path as needed
         
                 try {
                     // Ensure the upload directory exists
@@ -70,6 +70,47 @@ public class OfferService {
 
     public List<Offre> getAllOffers() {
         return offerRepository.findAll();
+    }
+
+    public boolean deleteOfferById(Long id) {
+        if (offerRepository.existsById(id)) {
+            offerRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public Offre updateOffer(Long id, Offre updatedOffer, MultipartFile file) {
+        Offre existingOffer = offerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Offer not found with id: " + id));
+        
+        // Update the offer fields
+        existingOffer.setTitle(updatedOffer.getTitle());
+        existingOffer.setDescription(updatedOffer.getDescription());
+        existingOffer.setPrice(updatedOffer.getPrice());
+        existingOffer.setLocalisation(updatedOffer.getLocalisation());
+        existingOffer.setType(updatedOffer.getType());
+        existingOffer.setTheme(updatedOffer.getTheme());
+        existingOffer.setLevel(updatedOffer.getLevel());
+        existingOffer.setDate(updatedOffer.getDate());
+        existingOffer.setApprovalStatus(updatedOffer.getApprovalStatus());
+        existingOffer.setEtat(updatedOffer.getEtat());
+
+        // Handle file upload if a new file is provided
+        if (file != null && !file.isEmpty()) {
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path imagePath = Paths.get("backend/offer-service/src/main/uploads", fileName);
+
+            try {
+                Files.createDirectories(imagePath.getParent());
+                Files.copy(file.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+                existingOffer.setImage(fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to store file: " + e.getMessage());
+            }
+        }
+
+        return offerRepository.save(existingOffer);
     }
 
     public List<Offre> searchOffers(String title, String theme, String type, String level, Double price) {
