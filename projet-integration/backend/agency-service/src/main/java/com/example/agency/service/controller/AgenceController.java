@@ -69,7 +69,7 @@ public class AgenceController {
     }
 
     // Retrieve all Agences
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Agence>> getAllAgences() {
         List<Agence> agences = agenceService.getAllAgences();
         return ResponseEntity.ok(agences);
