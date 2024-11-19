@@ -1,7 +1,9 @@
 package com.example.agency.service.controller;
 
 import com.example.agency.service.entity.Agence;
+import com.example.agency.service.repository.AgenceRepository;
 import com.example.agency.service.service.AgenceService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +16,20 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/agences")
+
 public class AgenceController {
 
-    private final AgenceService agenceService;
+    AgenceService agenceService;
 
     @Autowired
     public AgenceController(AgenceService agenceService) {
         this.agenceService = agenceService;
     }
+
+    @Autowired
+    AgenceRepository agenceRepository;
 
     // Create a new Agence
     @PostMapping("/create")
@@ -119,6 +126,12 @@ public class AgenceController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
+    @GetMapping("/unverified")
+    public List<Agence> getUnverifiedAgencies() {
+        return agenceService.getUnverifiedAgencies(); // Appel sur le service
+    }
+
+
 
     
 }

@@ -5,6 +5,7 @@ import com.example.agency.service.exception.ResourceNotFoundException;
 import com.example.agency.service.repository.AgenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.io.File;
@@ -105,5 +106,11 @@ public class AgenceService {
             return false;
         }
     }
-
+    @GetMapping("/unverified")
+    public List<Agence> getUnverifiedAgencies() {
+        return agenceRepository.findByVerificationStatusFalse();
+// Appel sur l'instance injectée
+    }
 }
+
+
