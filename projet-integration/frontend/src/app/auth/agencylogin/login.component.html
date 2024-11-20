@@ -11,11 +11,12 @@ style="
         <div class="text-center">
             <div class="mt-5 space-y-2">
                 <h3 class="text-gray-800 text-2xl font-bold sm:text-3xl">Log in to your agency account</h3>
-                <p class="">Don't have an account? <a href="javascript:void(0)" class="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a></p>
+                <p class="">Don't have an account?<a [routerLink]="['/signupagency']" class="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a></p>
             </div>
         </div>
         <form
             class="mt-8 space-y-5"
+            (ngSubmit)="onLogin()"
         >
             <div>
                 <label class="font-medium">
@@ -23,6 +24,8 @@ style="
                 </label>
                 <input
                     type="email"
+                    [(ngModel)]="email"
+                    name="email"
                     required
                     class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
@@ -33,6 +36,8 @@ style="
                 </label>
                 <input
                     type="password"
+                    [(ngModel)]="password" 
+                    name="password"
                     required
                     class="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
@@ -46,6 +51,7 @@ style="
             <div class="text-center">
                 <a href="javascript:void(0)" class="hover:text-indigo-600">Forgot password?</a>
             </div>
+            
         </form>
     </div>
 </main>

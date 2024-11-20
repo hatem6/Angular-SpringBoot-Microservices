@@ -1,0 +1,116 @@
+<section >
+    <div class="md:hidden"><br><br></div>
+    <div class="py-6 sm:py-8 lg:py-12">
+      <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+        <!-- text - start -->
+        <div class="mb-10 md:mb-16" >
+          <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">Offers</h2>
+    
+          <p class="mx-auto max-w-screen-md text-center text-gray-500 md:text-lg font-bold">Life is about the adventures you take and the memories you make ...</p>
+        </div>
+        <!-- text - end -->
+    
+        <div class="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
+          
+           <!-- article - start -->
+        <div
+        *ngFor="let offer of offers"
+        class="flex flex-col overflow-hidden rounded-lg border bg-white"
+      >
+        <a
+          href="#"
+          class="group relative block h-48 overflow-hidden bg-gray-100 md:h-64"
+        >
+          <img
+            [src]="'http://localhost:8082/uploads/' + offer.image"
+            loading="lazy"
+            alt="{{ offer.title }}"
+            class="absolute inset-0 h-full w-full object-cover transition duration-200 group-hover:scale-110"
+          />
+        </a>
+        <div class="flex flex-1 flex-col p-4 sm:p-6">
+          <div class="flex space-x-10">
+            <h2 class="mb-2 text-lg font-semibold text-gray-800">
+              <p
+                class="transition duration-100 hover:text-indigo-500 active:text-indigo-600 border-b border-black"
+              >
+                {{ offer.title }}
+              </p>
+            </h2>
+            <h2 class="mb-2 text-lg font-semibold text-gray-800">
+              <p
+                class="transition duration-100 hover:text-indigo-500 active:text-indigo-600"
+              >
+              {{ offer.level }}
+              </p>
+            </h2>
+          </div>
+          <div class="flex items-center gap-10">
+            <div class="mt-10">
+              <p class="mb-8 text-gray-500 flex space-x-2">
+                <span class="mt-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-geo-alt-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"
+                    />
+                  </svg>
+                </span>
+                {{ offer.localisation }}
+              </p>
+            </div>
+            <span class="text-l text-gray-600 font-bold">
+              Starting from {{ offer.price }} DT
+            </span>
+          </div>
+
+          <div class="flex ml-7 items-center gap-20">
+            <button
+              class="px-4 py-2 text-lg font-bold text-white bg-blue-500 rounded hover:bg-blue-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-pencil-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"
+                />
+              </svg>
+            </button>
+            <button
+              class="px-4 py-2 text-lg font-bold text-white bg-red-500 rounded hover:bg-red-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-trash3-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- article - end -->
+  
+    
+          
+        </div>
+      </div>
+    </div>
+      </section>

@@ -15,6 +15,7 @@ public class Offre {
     private String title;
     private String description;
     private Double price;
+    private String localisation;
     private String type;
     private String theme;
     private String level;
