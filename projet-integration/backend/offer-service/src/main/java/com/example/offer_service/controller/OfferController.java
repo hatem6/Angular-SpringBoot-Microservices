@@ -30,6 +30,7 @@ public class OfferController {
         @RequestParam("title") String title,
         @RequestParam("description") String description,
         @RequestParam("price") Double price,
+        @RequestParam("localisation") String localisation,
         @RequestParam("type") String type,
         @RequestParam("theme") String theme,
         @RequestParam("level") String level,
@@ -65,6 +66,7 @@ public class OfferController {
                 .title(title)
                 .description(description)
                 .price(price)
+                .localisation(localisation)
                 .type(type)
                 .theme(theme)
                 .level(level)
@@ -109,6 +111,70 @@ public class OfferController {
         List<Offre> offers = offerService.getAllOffers();
         return ResponseEntity.ok(offers);   
     }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> deleteOffer(@PathVariable Long id) {
+    boolean isDeleted = offerService.deleteOfferById(id);
+    Map<String, Object> response = new HashMap<>();
+    if (isDeleted) {
+        response.put("message", "Offer deleted successfully");
+        response.put("deleted", true);
+        return ResponseEntity.ok(response);
+    } else {
+        response.put("message", "Offer not found");
+        response.put("deleted", false);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> updateOffer(
+            @PathVariable Long id,
+            @RequestParam("agencyId") Long agencyId,
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("price") Double price,
+            @RequestParam("localisation") String localisation,
+            @RequestParam("type") String type,
+            @RequestParam("theme") String theme,
+            @RequestParam("level") String level,
+            @RequestParam("date") String date,
+            @RequestParam("approvalStatus") Boolean approvalStatus,
+            @RequestParam(value = "etat", defaultValue = "visible") String etat,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
+
+        // Create updated offer
+        Offre updatedOffer = Offre.builder()
+                .agencyId(agencyId)
+                .title(title)
+                .description(description)
+                .price(price)
+                .localisation(localisation)
+                .type(type)
+                .theme(theme)
+                .level(level)
+                .date(date)
+                .approvalStatus(approvalStatus)
+                .etat(etat.toLowerCase())
+                .build();
+
+        try {
+            Offre savedOffer = offerService.updateOffer(id, updatedOffer, image);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Offer updated successfully");
+            response.put("offer", savedOffer);
+            response.put("updated", true);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            response.put("updated", false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+
 
     @GetMapping("/search")
     public ResponseEntity<List<Offre>> searchOffers(

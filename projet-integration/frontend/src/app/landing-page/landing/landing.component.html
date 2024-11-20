@@ -75,10 +75,6 @@ background: linear-gradient(
               </ul>
 
               <div class="items-center justify-end mt-6 space-y-6 md:flex md:mt-0">
-                
-
-
-
                 <div class="relative inline-block text-left">
                     <div>
                       <button type="button" 
@@ -103,8 +99,8 @@ background: linear-gradient(
                          tabindex="-1"
                          >
                       <div class="py-1" role="none">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 hover:text-white" role="menuitem" tabindex="-1" id="menu-item-1">Traveler</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 hover:text-white" role="menuitem" tabindex="-1" id="menu-item-2">Agency</a>
+                        <a routerLink="signuptraveler" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 hover:text-white" role="menuitem" tabindex="-1" id="menu-item-1">Traveler</a>
+                        <a routerLink="signupagency" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 hover:text-white" role="menuitem" tabindex="-1" id="menu-item-2">Agency</a>
                       </div>
                     </div>
                   </div>
@@ -156,7 +152,7 @@ background: linear-gradient(
                          aria-labelledby="menu-button" 
                          tabindex="-1"
                         >
-                      <div class="py-1" role="none">
+                      <div class="py-1">
                         <a routerLink="travelerlogin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 hover:text-white" role="menuitem" tabindex="-1" id="menu-item-1">Traveler</a>
                         <a routerLink="agencylogin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 hover:text-white" role="menuitem" tabindex="-1" id="menu-item-2">Agency</a>
                       </div>
@@ -174,7 +170,7 @@ background: linear-gradient(
 
 
 
-      <section class="py-14">
+      <section class="py-14" id="about">
         <div class="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
           <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
             <h2 class="text-xl text-gray-800 font-extrabold sm:text-4xl">
@@ -222,7 +218,7 @@ background: linear-gradient(
       </section>
 
 
-      <section>
+      <section id="services">
         <div class="py-6 sm:py-8 lg:py-12">
           <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
             <!-- text - start -->
@@ -240,9 +236,15 @@ background: linear-gradient(
                   <img src="assets/images/hotel2.jpg" loading="lazy" alt="Photo by Minh Pham" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
                 </a>
                 <div class="flex flex-1 flex-col p-4 sm:p-6">
-                  <h2 class="mb-2 text-lg font-semibold text-gray-800">
-                    <a href="#" class="transition duration-100 hover:text-indigo-500 active:text-indigo-600 border-b border-black">Djerba Castille</a>
-                  </h2>
+                  <div class="flex space-x-10 ">
+                    <h2 class="mb-2 text-lg font-semibold text-gray-800">
+                      <p class="transition duration-100 hover:text-indigo-500 active:text-indigo-600 border-b border-black">Djerba Castille</p>
+                    </h2>
+                    <h2 class="mb-2 text-lg font-semibold text-gray-800">
+                      <p class="transition duration-100 hover:text-indigo-500 active:text-indigo-600 border-b border-black">Agency Name</p>
+                    </h2>
+                  </div>
+                  
                   <div class="-ml-1 flex gap-0.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -452,7 +454,7 @@ background: linear-gradient(
 
 
 
-      <section class="py-14">
+      <section class="py-14" id="contact">
         <div class="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
           <div
             data-aos="fade-right"
@@ -570,14 +572,24 @@ background: linear-gradient(
       </section>
 
 
-     
-
-
-
-
-      
-
+    
 
     </div>
+
+    <footer class="pt-10">
+      <div class="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
+        <div class="justify-between sm:flex">
+          <div class="space-y-6">
+            <img src="assets/images/logo2.png" class="w-32" />
+            <p class="max-w-md">
+              “ What you’ve done becomes the judge of what you’re going to do especially in other people’s minds. When you’re traveling, you are what you are right there and then. People don’t have your past to hold against you. No yesterdays on the road.”
+            </p>
+          </div>
+        </div>
+        <div class="mt-10 py-10 border-t md:text-center">
+          <p>© 2024 PATHFINDER. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
   </div>
 

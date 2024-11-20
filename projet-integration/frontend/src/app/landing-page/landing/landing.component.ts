@@ -22,7 +22,7 @@ export class LandingComponent implements OnInit {
   isSecondDropDownOpen: boolean = false;
 
   stats = [
-    { data: '3K', title: 'Customers' },
+    { data: '3K', title: 'Clients' },
     { data: '20+', title: 'Agencies' },
     { data: '14+', title: 'Countries' },
     { data: '120+', title: 'Trips' }
@@ -30,9 +30,9 @@ export class LandingComponent implements OnInit {
 
   // Define the menuItems property
   menuItems = [
-    { title: 'About', path: '#' },
-    { title: 'Services', path: '#' },
-    { title: 'Contact', path: '#' },
+    { title: 'About', path: '/#about' },
+    { title: 'Services', path: '/#services' },
+    { title: 'Contact', path: '/#contact' },
   ];
 
   toggleMenu(): void {
