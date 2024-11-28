@@ -187,5 +187,18 @@ public class OfferController {
         List<Offre> offers = offerService.searchOffers(title, theme, type, level, price);
         return ResponseEntity.ok(offers);
     }
-   
+    @GetMapping("/agency/{agencyId}")
+    public ResponseEntity<List<Offre>> getOffersByAgencyId(@PathVariable Long agencyId) {
+        // Récupérer les offres liées à une agence spécifique
+        List<Offre> offers = offerService.getOffersByAgencyId(agencyId);
+
+        if (offers.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(offers); // Retourne une liste vide si aucune offre n'est trouvée
+        }
+
+        return ResponseEntity.ok(offers);  // Retourne la liste des offres pour l'agence donnée
+    }
+
+
 }

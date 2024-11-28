@@ -24,4 +24,5 @@ public interface OfferRepository extends JpaRepository<Offre, Long> {
             @Param("level") String level,
             @Param("price") Double price
     );
+    List<Offre> findByAgencyId(Long agencyId);
 }
