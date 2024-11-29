@@ -187,6 +187,7 @@ public class OfferController {
         List<Offre> offers = offerService.searchOffers(title, theme, type, level, price);
         return ResponseEntity.ok(offers);
     }
+
     @GetMapping("/agency/{agencyId}")
     public ResponseEntity<List<Offre>> getOffersByAgencyId(@PathVariable Long agencyId) {
         // Récupérer les offres liées à une agence spécifique
@@ -199,6 +200,5 @@ public class OfferController {
 
         return ResponseEntity.ok(offers);  // Retourne la liste des offres pour l'agence donnée
     }
-
-
+    
 }

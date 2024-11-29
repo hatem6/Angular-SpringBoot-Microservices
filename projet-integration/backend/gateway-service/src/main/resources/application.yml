@@ -18,10 +18,6 @@ spring:
           uri: http://localhost:8083/
           predicates:
             - Path=/api/users/**
-        - id: agencyadmin
-          uri: http://localhost:8084/
-          predicates:
-            - Path=/api/admin/**
     discovery:
       locator:
         enabled: true

@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './addoffer.component.html',
 })
 export class AddofferComponent {
-  agencyId: number = 1; // Replace with dynamic agency ID
+  agencyId: number = 0; // Replace with dynamic agency ID
   offer = {
     title: '',
     description: '',
@@ -25,7 +25,26 @@ export class AddofferComponent {
   selectedFile: File | null = null;
 
   constructor(private offerService: OffersService) {}
+  ngOnInit() {
+    // Retrieve the agence object from localStorage
+    const agence = localStorage.getItem('agence');
 
+    // If agence exists in localStorage, parse it and extract the name
+    if (agence) {
+      try {
+        const agenceData = JSON.parse(agence);
+        if (agenceData && agenceData.name) {
+          this.agencyId = agenceData.id;
+        } else {
+          console.error('Agency name is missing in localStorage data');
+        }
+      } catch (error) {
+        console.error('Error parsing agence data from localStorage', error);
+      }
+    } else {
+      console.log('No agence found in localStorage');
+    }
+  }
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {

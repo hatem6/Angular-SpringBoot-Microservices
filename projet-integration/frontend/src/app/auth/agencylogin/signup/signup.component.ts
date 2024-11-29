@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { AgenceService } from '../../../agency/agence.service';
 import { FormsModule } from '@angular/forms';
-
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,RouterModule],
   templateUrl: './signup.component.html',
 })
 export class SignupComponent {
@@ -14,7 +15,7 @@ export class SignupComponent {
   password: string = '';
   selectedFile: File | null = null;
 
-  constructor(private agenceService: AgenceService) {}
+  constructor(private agenceService: AgenceService ,private router: Router) {}
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
@@ -36,6 +37,7 @@ export class SignupComponent {
       response => {
         console.log('Signup successful:', response);
         alert('Signup successful');
+        this.router.navigate(['/agencylogin']);
       },
       error => {
         console.error('Signup error:', error);

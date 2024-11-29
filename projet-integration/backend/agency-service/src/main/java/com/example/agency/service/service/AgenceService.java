@@ -85,15 +85,57 @@ public class AgenceService {
     }
 
     // Update an existing Agence
-    public Agence updateAgence(Long id, Agence agenceDetails) {
+    public Agence updateAgence(Long id, Agence agenceDetails, MultipartFile file) {
+        // Retrieve the existing Agence from the database
         Agence agence = getAgenceById(id);
+    
+        // Update basic details
         agence.setName(agenceDetails.getName());
-        agence.setEmail(agenceDetails.getEmail());
-        agence.setPassword(agenceDetails.getPassword());
+        // Check if the new email is different and already exists in the database
+        if (!agence.getEmail().equals(agenceDetails.getEmail())) {
+            Optional<Agence> existingAgence = agenceRepository.findByEmail(agenceDetails.getEmail());
+            if (existingAgence.isPresent()) {
+                throw new IllegalArgumentException("The email address is already in use.");
+            }
+            agence.setEmail(agenceDetails.getEmail());
+        }
+        if (agenceDetails.getPassword() != null && !agenceDetails.getPassword().isEmpty()) {
+            String hashedPassword = passwordEncoder.encode(agenceDetails.getPassword());
+            agence.setPassword(hashedPassword);
+        }
         agence.setVerificationStatus(agenceDetails.getVerificationStatus());
-
+    
+        // Check if a new file is provided for upload
+        if (file != null && !file.isEmpty()) {
+            // Generate a unique filename for the new file
+            String fileName = file.getOriginalFilename();
+            String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+            Path documentPath = Paths.get("backend/agency-service/src/main/uploads", uniqueFileName);
+    
+            try {
+                // Ensure the upload directory exists
+                Files.createDirectories(documentPath.getParent());
+    
+                // Save the new file to the specified path
+                Files.copy(file.getInputStream(), documentPath, StandardCopyOption.REPLACE_EXISTING);
+    
+                // Update the documentPath in the Agence object
+                agence.setDocumentPath("http://localhost:8081/uploads/" + uniqueFileName);
+    
+                // Log for debugging (consider using a logger instead)
+                System.out.println("Updated Document Path: " + documentPath.toString());
+            } catch (IOException e) {
+                // Handle file upload exception
+                throw new RuntimeException("Failed to store updated file: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No new file provided or the file is empty. Keeping the existing document path.");
+        }
+    
+        // Save the updated Agence details to the database
         return agenceRepository.save(agence);
     }
+    
 
     // Delete an Agence
     public void deleteAgence(Long id) {

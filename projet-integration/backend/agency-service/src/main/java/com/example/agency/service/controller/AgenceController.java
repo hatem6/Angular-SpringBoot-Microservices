@@ -70,7 +70,7 @@ public class AgenceController {
     }
 
     // Retrieve all Agences
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Agence>> getAllAgences() {
         List<Agence> agences = agenceService.getAllAgences();
         return ResponseEntity.ok(agences);
@@ -78,17 +78,32 @@ public class AgenceController {
 
     // Update an existing Agence
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateAgence(@PathVariable Long id, @RequestBody Agence agenceDetails) {
-        Agence updatedAgence = agenceService.updateAgence(id, agenceDetails);
+    public ResponseEntity<Map<String, Object>> updateAgence(
+        @PathVariable Long id,
+        @ModelAttribute Agence agenceDetails, // Use @ModelAttribute to handle both form-data fields and files
+        @RequestParam(value = "file", required = false) MultipartFile file) {
+        try {
+        // Call the service method to update the Agence, passing the file if available
+        Agence updatedAgence = agenceService.updateAgence(id, agenceDetails, file);
+
         // Prepare the response map
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Agence updated successfully");
         response.put("updated", true);
         response.put("agence", updatedAgence); // Optionally include the updated Agence in the response
-    
+
         // Return a 200 OK response with the custom message and updated Agence
         return ResponseEntity.status(HttpStatus.OK).body(response);
+
+    } catch (Exception e) {
+        // Handle any exceptions and return a proper error response
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("message", "Failed to update Agence");
+        errorResponse.put("error", e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
+    }
+
     
 
     // Delete an Agence

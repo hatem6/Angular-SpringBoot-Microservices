@@ -27,5 +27,11 @@ export class AgenceService {
     return this.http.post<any>(`${this.apiUrl}/create`, formData);
   }
 
+  updateAgence(agencyId: number,formData: FormData): Observable<any> {
+    // Append '/create' to the API URL to match the endpoint in your backend
+    return this.http.put<any>(`${this.apiUrl}/${agencyId}`, formData);
+  }
+  
+
   // Other methods like createAgence, updateAgence, etc.
 }

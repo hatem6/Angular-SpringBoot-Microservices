@@ -27,26 +27,26 @@ public class OfferService {
         this.offerRepository = offerRepository;
     }
 
-    public Offre createOfferIfAgencyExists(Offre offer, MultipartFile file) {
+    public Offre createOfferIfAgencyExists(Offre offer,MultipartFile file) {
         Agence agency = agencyClient.getAgenceById(offer.getAgencyId());
-
+        
         if (agency != null) {
             if (file != null && !file.isEmpty()) {
                 // Generate a unique filename for the file
                 String fileName = file.getOriginalFilename();
                 String uniqueFileName = System.currentTimeMillis() + "_" + fileName; // Avoid filename duplication
                 Path imagePath = Paths.get("backend/offer-service/src/main/uploads", uniqueFileName); // Adjust the path as needed
-
+        
                 try {
                     // Ensure the upload directory exists
                     Files.createDirectories(imagePath.getParent());
-
+        
                     // Save the file to the specified path
-                    Files.copy(file.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
-
+                    Files.copy(file.getInputStream(),imagePath, StandardCopyOption.REPLACE_EXISTING);
+        
                     // Set the document path in the Agence object
                     offer.setImage(uniqueFileName.toString()); // Only store the document path
-
+        
                     // Log for debugging (consider using a logger instead)
                     System.out.println("Image Path: " + imagePath.toString());
                 } catch (IOException e) {
@@ -83,7 +83,7 @@ public class OfferService {
     public Offre updateOffer(Long id, Offre updatedOffer, MultipartFile file) {
         Offre existingOffer = offerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Offer not found with id: " + id));
-
+        
         // Update the offer fields
         existingOffer.setTitle(updatedOffer.getTitle());
         existingOffer.setDescription(updatedOffer.getDescription());
@@ -121,6 +121,6 @@ public class OfferService {
         // Rechercher toutes les offres ayant l'ID de l'agence correspondant
         return offerRepository.findByAgencyId(agencyId);  // Supposons que vous avez une méthode dans le repository pour ce cas
     }
-
+    
 
 }

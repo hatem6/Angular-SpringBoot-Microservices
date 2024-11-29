@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -10,6 +11,8 @@ import { RouterModule } from '@angular/router';
 export class SidebarComponent {
   isSidebarVisible = false; // Tracks the visibility of the sidebar
   agencyName = '';
+
+  constructor(private router: Router) {}
   ngOnInit() {
     // Retrieve the agence object from localStorage
     const agence = localStorage.getItem('agence');
@@ -34,5 +37,12 @@ export class SidebarComponent {
   toggleSidebar() {
     this.isSidebarVisible = !this.isSidebarVisible; // Toggle visibility
     console.log("Sidebar visibility toggled:", this.isSidebarVisible);
+  }
+
+
+  logout() {
+    localStorage.removeItem('agence');
+   
+    this.router.navigate(['/agencylogin']);
   }
 }

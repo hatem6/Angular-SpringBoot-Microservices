@@ -1,0 +1,97 @@
+<div class="md:w-[80%]  md:ml-72">
+
+  <!-- Chat Layout -->
+  <main class="grid grid-cols-1 md:flex  bg-white h-screen">
+    <!-- Chat List -->
+    <aside class="md:w-2/5 bg-gray-100">
+      <!-- Search -->
+      <div class="px-4 py-3 border-b">
+        <input
+          type="text"
+          placeholder="Search chatting"
+          class="w-full px-3 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-300"
+        />
+      </div>
+
+      <!-- User List -->
+      <div class="overflow-y-auto">
+        <div
+          class="flex items-center px-4 py-3 border-b hover:bg-gray-200"
+          *ngFor="let message of filteredMessages"
+          (click)="selectUser(message.senderId)"
+        >
+          <img
+            src="https://i.ibb.co/Wkg2ZG6/user-removebg-preview.png"
+            alt="User"
+            class="w-12 h-12 rounded-full"
+          />
+          <div class="ml-3">
+            <p class="text-lg font-semibold">{{ message.senderId }}</p>
+            <p class="text-sm text-gray-500 truncate">
+              {{ message.timestamp }}
+            </p>
+          </div>
+        </div>
+        <!-- Add more user list items here -->
+      </div>
+    </aside>
+
+    <!-- Message Section -->
+    <section class="flex flex-col justify-between w-full px-6">
+      <div class="flex flex-col mt-5 space-y-4">
+        <!-- Messages -->
+        <div *ngFor="let message of conversation">
+          <!-- Agency's Message -->
+          <div
+            class="flex justify-end items-center mb-4"
+            *ngIf="message.senderId === agencyId"
+          >
+            <div
+              class="px-4 py-2 bg-blue-500 text-white rounded-bl-3xl rounded-tl-3xl rounded-tr-xl"
+            >
+              {{ message.content }}
+            </div>
+            <!--<img
+              src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+              alt="Agency"
+              class="w-8 h-8 ml-2 rounded-full"
+            />-->
+          </div>
+
+          <!-- User's Message -->
+          <div
+            class="flex justify-start items-center mb-4"
+            *ngIf="message.senderId !== agencyId"
+          >
+         
+            <img
+              src="https://i.ibb.co/Wkg2ZG6/user-removebg-preview.png"
+              alt="User"
+              class="w-8 h-8 mr-2 rounded-full"
+            />
+            <div
+              class="px-4 py-2 bg-gray-300 text-black rounded-br-3xl rounded-tr-3xl rounded-tl-xl"
+            >
+              {{ message.content }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div class="py-4 flex">
+        <input
+        type="text"
+        [(ngModel)]="newMessageContent"
+          placeholder="Type your message here..."
+          class="w-full px-4 py-3 bg-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-300"
+        />
+        <button (click)="sendMessage(newMessageContent)" class="p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+  </main>
+</div>
